@@ -1,0 +1,33 @@
+var assert = require('chai').assert;
+var changePrefixPhoneNumber = require('..');
+
+describe('changePrefixPhoneNumber()', function() {
+
+  it('should change vietnam-mobile phone numbers correctly', function() {
+
+    let sample = '7654321';
+    assert.equal(changePrefixPhoneNumber('0186' + sample), '056' + sample);
+    assert.equal(changePrefixPhoneNumber('+84186' + sample), '+8456' + sample);
+    assert.equal(changePrefixPhoneNumber('0084186' + sample), '008456' + sample);
+
+    assert.equal(changePrefixPhoneNumber('0188' + sample), '058' + sample);
+    assert.equal(changePrefixPhoneNumber('+84188' + sample), '+8458' + sample);
+    assert.equal(changePrefixPhoneNumber('0084188' + sample), '008458' + sample);
+  })
+
+  it('should change gmobile phone numbers correctly', function() {
+
+    let sample = '7654321';
+    assert.equal(changePrefixPhoneNumber('0199' + sample), '059' + sample);
+    assert.equal(changePrefixPhoneNumber('+84199' + sample), '+8459' + sample);
+    assert.equal(changePrefixPhoneNumber('0084199' + sample), '008459' + sample);
+  })
+
+  it('should change gmobile phone numbers (with delimiters) correctly', function() {
+
+    let sample = '7654321';
+    assert.equal(changePrefixPhoneNumber('019.9' + sample, {removeDelimiters: true}), '059' + sample);
+    assert.equal(changePrefixPhoneNumber('+84.199' + sample, {removeDelimiters: false}), '+84.59' + sample);
+    assert.equal(changePrefixPhoneNumber('0084 199' + sample, {removeDelimiters: false}), '0084 59' + sample);
+  })
+});
